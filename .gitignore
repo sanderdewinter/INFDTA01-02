@@ -1,10 +1,9 @@
 /target
 /Data science 2.iml
 /.idea
+*/export.csv
 # Created by .ignore support plugin (hsz.mobi)
 ### Java template
-*.class
-
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
