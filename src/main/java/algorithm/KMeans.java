@@ -3,6 +3,7 @@ package algorithm;
 import models.Cluster;
 import models.IVector;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -14,6 +15,40 @@ public class KMeans {
 
     public KMeans(List<? extends IVector> points) {
         this.points = points;
+        clusters = new ArrayList<>();
+    }
+
+    public void calculate() {
+        boolean isChanged = true;
+        int i = 0;
+
+        while (isChanged && i < 100) {
+            clusters.forEach(Cluster::clearCluster);
+            isChanged = false;
+
+            for (IVector point : points) {
+                double smallestDistance = 99.9;
+                Cluster closestCluster = null;
+
+                for (Cluster cluster : clusters) {
+                    Double euclideanDistance = getEuclideanDistance(cluster.getCentroid(), point.vector());
+
+                    if (smallestDistance > euclideanDistance) {
+                        smallestDistance = euclideanDistance;
+                        closestCluster = cluster;
+                        isChanged = true;
+                    }
+                }
+
+                if (closestCluster != null) {
+                    closestCluster.addPoint(point.vector());
+                }
+            }
+            i++;
+        }
+    }
+
+    private void clearClusters() {
     }
 
     public Double getEuclideanDistance(Vector<Integer> v1, Vector<Integer> v2) {
@@ -27,13 +62,14 @@ public class KMeans {
     }
 
     public void initCentroidsByRandom(int amountOfClusters) {
+        clusters.clear();
         List<Cluster> clusterCenter = new Vector<>();
         for (int i = 0; i < amountOfClusters; i++) {
             int random = new Random().nextInt(points.size());
             clusterCenter.add(new Cluster(points.get(random).vector()));
         }
 
-        this.clusters = clusterCenter;
+        clusters = clusterCenter;
     }
 
     public List<? extends IVector> getPoints() {

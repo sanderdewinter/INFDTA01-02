@@ -30,4 +30,12 @@ public class ClientTest {
         List<Cluster> clusterCenter = kMeans.getClusters();
         Assert.assertNotNull(clusterCenter);
     }
+
+    @Test
+    public void testKMeansCalculate() {
+        kMeans.initCentroidsByRandom(3);
+        kMeans.calculate();
+        List<Cluster> clusters = kMeans.getClusters();
+        Assert.assertNotNull(clusters);
+    }
 }
