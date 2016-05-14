@@ -1,3 +1,5 @@
+package models;
+
 import java.util.Vector;
 
 public class Client {
