@@ -48,9 +48,6 @@ public class KMeans {
         }
     }
 
-    private void clearClusters() {
-    }
-
     public Double getEuclideanDistance(Vector<Integer> v1, Vector<Integer> v2) {
         double distance = 0.0;
         
