@@ -3,7 +3,7 @@ package models;
 import java.util.List;
 import java.util.Vector;
 
-public class Cluster {
+public class Cluster implements IVector {
 
     private Vector<Integer> centroid;
     private List<Vector<Integer>> points;
@@ -22,6 +22,11 @@ public class Cluster {
     }
 
     public Vector<Integer> getCentroid() {
+        return centroid;
+    }
+
+    @Override
+    public Vector<Integer> vector() {
         return centroid;
     }
 }
