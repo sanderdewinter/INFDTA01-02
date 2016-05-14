@@ -1,6 +1,7 @@
 package algorithm;
 
 import models.Cluster;
+import models.IVector;
 
 import java.util.List;
 import java.util.Random;
@@ -8,10 +9,10 @@ import java.util.Vector;
 
 public class KMeans {
 
-    private List<Vector<Integer>> points;
+    private List<? extends IVector> points;
     private List<Cluster> clusters;
 
-    public KMeans(List<Vector<Integer>> points) {
+    public KMeans(List<? extends IVector> points) {
         this.points = points;
     }
 
@@ -29,13 +30,13 @@ public class KMeans {
         List<Cluster> clusterCenter = new Vector<>();
         for (int i = 0; i < amountOfClusters; i++) {
             int random = new Random().nextInt(points.size());
-            clusterCenter.add(new Cluster(points.get(random)));
+            clusterCenter.add(new Cluster(points.get(random).vector()));
         }
 
         this.clusters = clusterCenter;
     }
 
-    public List<Vector<Integer>> getPoints() {
+    public List<? extends IVector> getPoints() {
         return points;
     }
 

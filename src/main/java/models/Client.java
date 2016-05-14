@@ -2,7 +2,7 @@ package models;
 
 import java.util.Vector;
 
-public class Client {
+public class Client implements IVector {
     Vector<Integer> wine = new Vector<>();
 
     public Client(Vector<Integer> wine) {
@@ -19,5 +19,10 @@ public class Client {
 
     public void setWine(Vector<Integer> wine) {
         this.wine = wine;
+    }
+
+    @Override
+    public Vector<Integer> vector() {
+        return getWine();
     }
 }
