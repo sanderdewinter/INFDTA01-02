@@ -12,10 +12,12 @@ public class KMeans {
 
     private List<? extends IVector> points;
     private List<Cluster> clusters;
+    private double sse;
 
     public KMeans(List<? extends IVector> points) {
         this.points = points;
         clusters = new ArrayList<>();
+        sse = 0.0;
     }
 
     public void calculate() {
@@ -23,8 +25,10 @@ public class KMeans {
         int i = 0;
 
         while (isChanged && i < 100) {
+            setCentroids();
             clusters.forEach(Cluster::clearCluster);
             isChanged = false;
+            sse = 0.0;
 
             for (IVector point : points) {
                 double smallestDistance = 99.9;
@@ -42,9 +46,28 @@ public class KMeans {
 
                 if (closestCluster != null) {
                     closestCluster.addPoint(point.vector());
+                    sse += smallestDistance;
                 }
             }
             i++;
+        }
+    }
+
+    private void setCentroids() {
+        for (Cluster cluster : clusters) {
+            Vector<Integer> centroid = new Vector<>();
+
+            for (int i = 0; i < 32; i++) {
+                double sum = 0.0;
+                for (Vector<Integer> vector : cluster.getPoints()) {
+                    sum += vector.get(i);
+                }
+                centroid.add((int) (sum / cluster.getPoints().size()));
+            }
+
+            if (cluster.getPoints().size() > 0) {
+                cluster.setCentroid(centroid);
+            }
         }
     }
 
