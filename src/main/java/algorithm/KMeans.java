@@ -11,11 +11,13 @@ import java.util.Vector;
 public class KMeans {
 
     private List<? extends IVector> points;
+    private int amountOfIterations;
     private List<Cluster> clusters;
     private double sse;
 
-    public KMeans(List<? extends IVector> points) {
+    public KMeans(List<? extends IVector> points, int amountOfIterations) {
         this.points = points;
+        this.amountOfIterations = amountOfIterations;
         clusters = new ArrayList<>();
         sse = 0.0;
     }
@@ -24,7 +26,7 @@ public class KMeans {
         boolean isChanged = true;
         int i = 0;
 
-        while (isChanged && i < 100) {
+        while (isChanged && i < amountOfIterations) {
             setCentroids();
             clusters.forEach(Cluster::clearCluster);
             isChanged = false;
@@ -57,7 +59,7 @@ public class KMeans {
         for (Cluster cluster : clusters) {
             Vector<Integer> centroid = new Vector<>();
 
-            for (int i = 0; i < 32; i++) {
+            for (int i = 0; i < points.get(0).vector().size(); i++) {
                 double sum = 0.0;
                 for (Vector<Integer> vector : cluster.getPoints()) {
                     sum += vector.get(i);
@@ -98,5 +100,9 @@ public class KMeans {
 
     public List<Cluster> getClusters() {
         return clusters;
+    }
+
+    public double getSse() {
+        return sse;
     }
 }

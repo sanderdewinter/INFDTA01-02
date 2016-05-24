@@ -16,7 +16,7 @@ public class ClientTest {
     @BeforeClass
     public static void setup() throws IOException {
         clients = WineDataLoader.loadWineData();
-        kMeans = new KMeans(clients);
+        kMeans = new KMeans(clients, 100);
     }
 
     @Test
@@ -36,6 +36,7 @@ public class ClientTest {
         kMeans.initCentroidsByRandom(3);
         kMeans.calculate();
         List<Cluster> clusters = kMeans.getClusters();
+        System.out.println(kMeans.getSse());
         Assert.assertNotNull(clusters);
     }
 }
