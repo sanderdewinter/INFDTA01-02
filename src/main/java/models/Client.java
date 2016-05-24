@@ -3,9 +3,9 @@ package models;
 import java.util.Vector;
 
 public class Client implements IVector {
-    Vector<Integer> wine = new Vector<>();
+    Vector<Double> wine = new Vector<>();
 
-    public Client(Vector<Integer> wine) {
+    public Client(Vector<Double> wine) {
         this.wine = wine;
     }
 
@@ -13,16 +13,16 @@ public class Client implements IVector {
         this.wine = new Vector<>();
     }
 
-    public Vector<Integer> getWine() {
+    public Vector<Double> getWine() {
         return wine;
     }
 
-    public void setWine(Vector<Integer> wine) {
+    public void setWine(Vector<Double> wine) {
         this.wine = wine;
     }
 
     @Override
-    public Vector<Integer> vector() {
+    public Vector<Double> vector() {
         return getWine();
     }
 }

@@ -28,7 +28,7 @@ public class WineDataLoader {
                     client = clients.get(i);
                 }
 
-                client.getWine().add(Integer.valueOf(offer));
+                client.getWine().add(Double.valueOf(offer));
 
                 if (firstRow) {
                     clients.add(i, client);

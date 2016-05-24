@@ -11,18 +11,16 @@ import java.util.Vector;
 public class KMeans {
 
     private List<? extends IVector> points;
-    private int amountOfIterations;
     private List<Cluster> clusters;
     private double sse;
 
-    public KMeans(List<? extends IVector> points, int amountOfIterations) {
+    public KMeans(List<? extends IVector> points) {
         this.points = points;
-        this.amountOfIterations = amountOfIterations;
         clusters = new ArrayList<>();
         sse = 0.0;
     }
 
-    public void calculate() {
+    public void calculate(int amountOfIterations) {
         boolean isChanged = true;
         int i = 0;
 
@@ -57,14 +55,14 @@ public class KMeans {
 
     private void setCentroids() {
         for (Cluster cluster : clusters) {
-            Vector<Integer> centroid = new Vector<>();
+            Vector<Double> centroid = new Vector<>();
 
             for (int i = 0; i < points.get(0).vector().size(); i++) {
                 double sum = 0.0;
-                for (Vector<Integer> vector : cluster.getPoints()) {
+                for (Vector<Double> vector : cluster.getPoints()) {
                     sum += vector.get(i);
                 }
-                centroid.add((int) (sum / cluster.getPoints().size()));
+                centroid.add(sum / cluster.getPoints().size());
             }
 
             if (cluster.getPoints().size() > 0) {
@@ -73,7 +71,7 @@ public class KMeans {
         }
     }
 
-    public Double getEuclideanDistance(Vector<Integer> v1, Vector<Integer> v2) {
+    public Double getEuclideanDistance(Vector<Double> v1, Vector<Double> v2) {
         double distance = 0.0;
         
         for (int i = 0; i < v1.size(); i++) {

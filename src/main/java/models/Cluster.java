@@ -6,36 +6,36 @@ import java.util.Vector;
 
 public class Cluster implements IVector {
 
-    private Vector<Integer> centroid;
-    private List<Vector<Integer>> points;
+    private Vector<Double> centroid;
+    private List<Vector<Double>> points;
 
-    public Cluster(Vector<Integer> centroid) {
+    public Cluster(Vector<Double> centroid) {
         this.centroid = centroid;
         points = new ArrayList<>();
     }
 
-    public Cluster(Vector<Integer> centroid, List<Vector<Integer>> points) {
+    public Cluster(Vector<Double> centroid, List<Vector<Double>> points) {
         this.centroid = centroid;
         this.points = points;
     }
 
-    public Vector<Integer> getCentroid() {
+    public Vector<Double> getCentroid() {
         return centroid;
     }
 
-    public void setCentroid(Vector<Integer> centroid) {
+    public void setCentroid(Vector<Double> centroid) {
         this.centroid = centroid;
     }
 
-    public List<Vector<Integer>> getPoints() {
+    public List<Vector<Double>> getPoints() {
         return points;
     }
 
-    public void setPoints(List<Vector<Integer>> points) {
+    public void setPoints(List<Vector<Double>> points) {
         this.points = points;
     }
 
-    public void addPoint(Vector<Integer> point) {
+    public void addPoint(Vector<Double> point) {
         points.add(point);
     }
 
@@ -44,7 +44,7 @@ public class Cluster implements IVector {
     }
 
     @Override
-    public Vector<Integer> vector() {
+    public Vector<Double> vector() {
         return centroid;
     }
 }
