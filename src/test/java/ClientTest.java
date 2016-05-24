@@ -15,7 +15,7 @@ public class ClientTest {
 
     @BeforeClass
     public static void setup() throws IOException {
-        clients = WineDataLoader.loadWineData();
+        clients = WineDataService.loadWineData();
         kMeans = new KMeans(clients);
     }
 
@@ -33,11 +33,27 @@ public class ClientTest {
 
     @Test
     public void testKMeansCalculate() {
-        kMeans.initCentroidsByRandom(3);
-        kMeans.calculate(100);
-        System.out.println(kMeans.getSse());
+        int clusters, iterations;
 
-        kMeans.initCentroidsByRandom(4);
-        kMeans.calculate(100);
+        clusters = 3;
+        iterations = 100;
+        kMeans.initCentroidsByRandom(clusters);
+        kMeans.calculate(iterations);
+        System.out.println("With " + clusters + " and " + iterations + " iterations, the sse is: " + kMeans.getSse());
+
+        iterations = 600;
+        KMeans kMeans2 = new KMeans(clients);
+        kMeans2.initCentroidsByRandom(clusters);
+        kMeans2.calculate(iterations);
+        System.out.println("With " + clusters + " and " + iterations + " iterations, the sse is: " + kMeans2.getSse());
+
+        clusters = 4;
+        iterations = 600;
+        KMeans kMeans3 = new KMeans(clients);
+        kMeans3.initCentroidsByRandom(clusters);
+        kMeans3.calculate(iterations);
+        System.out.println("With " + clusters + " and " + iterations + " iterations, the sse is: " + kMeans3.getSse());
+
+        WineDataService.printClusters(kMeans3.getClusters());
     }
 }
