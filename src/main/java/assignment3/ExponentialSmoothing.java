@@ -46,6 +46,8 @@ public class ExponentialSmoothing {
             sesError += error;
         }
 
+        sesError = sesError / (data.size() - 1);
+
         return ses;
     }
 
