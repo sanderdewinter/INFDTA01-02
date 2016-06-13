@@ -37,8 +37,7 @@ class Assignment3 extends JFrame {
         }
 
         XYSeries ses = new XYSeries("SES");
-        ExponentialSmoothing exponentialSmoothing = new ExponentialSmoothing(data, 0.5);
-        List<Double> sesData = exponentialSmoothing.simpleExponentialSmoothing();
+        List<Double> sesData = getSesData();
 
         for (int i = 0; i < sesData.size(); i++) {
             ses.add(i + 1, sesData.get(i));
@@ -48,6 +47,16 @@ class Assignment3 extends JFrame {
         dataset.addSeries(originalData);
         dataset.addSeries(ses);
         return dataset;
+    }
+
+    private List<Double> getSesData() {
+        ExponentialSmoothing exponentialSmoothing = new ExponentialSmoothing(data, 0.5);
+        double a = exponentialSmoothing.getBestSesSmoothingFactor();
+
+        exponentialSmoothing.setA(a);
+        List<Double> sesData = exponentialSmoothing.simpleExponentialSmoothing();
+
+        return sesData;
     }
 
     static List<Integer> getData() throws IOException {
