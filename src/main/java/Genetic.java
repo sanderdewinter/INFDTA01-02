@@ -1,5 +1,3 @@
-package assignment1.algorithm;
-
 public class Genetic {
 
     private double crossoverRate;

@@ -1,3 +1,5 @@
+package assignment1;
+
 import assignment1.algorithm.KMeans;
 import assignment1.WineDataService;
 import junit.framework.Assert;
