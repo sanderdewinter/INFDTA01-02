@@ -1,4 +1,4 @@
-package assignment2;
+package assignment3;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +14,7 @@ public class Assignment2Test {
 
     @BeforeClass
     public static void setUp() throws IOException {
-        data = DatasetLoader.getData();
+        data = Assignment3.getData();
     }
 
     @Test
