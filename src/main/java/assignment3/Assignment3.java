@@ -24,13 +24,12 @@ class Assignment3 extends JFrame {
         data = getData();
 
         JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, "Months", "Demand", createDataSet(data));
-
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(1000, 540));
         setContentPane(chartPanel);
     }
 
-    XYDataset createDataSet(List<Integer> data) {
+    private XYDataset createDataSet(List<Integer> data) {
         XYSeries line = new XYSeries("Line");
 
         for (int i = 0; i < data.size(); i++) {
