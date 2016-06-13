@@ -12,6 +12,8 @@ public class ExponentialSmoothing {
     private double a;
     private double b;
 
+    private double sesError;
+
     public ExponentialSmoothing(List<Integer> data, double a) {
         this.data = data;
         this.a = a;
@@ -28,6 +30,7 @@ public class ExponentialSmoothing {
 
     public List<Double> simpleExponentialSmoothing() {
         ses.clear();
+        sesError = 0;
 
         for (int i = 0; i < data.size(); i++) {
             if (i == 0) {
@@ -38,6 +41,9 @@ public class ExponentialSmoothing {
 
             double result = a * data.get(i - 1) + (1 - a) * ses.get(i - 1);
             ses.add(result);
+
+            double error = Math.pow(data.get(i) - result, 2);
+            sesError += error;
         }
 
         return ses;
