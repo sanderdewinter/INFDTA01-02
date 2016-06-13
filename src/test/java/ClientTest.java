@@ -1,7 +1,8 @@
-import algorithm.KMeans;
+import assignment1.algorithm.KMeans;
+import assignment1.WineDataService;
 import junit.framework.Assert;
-import models.Client;
-import models.Cluster;
+import assignment1.models.Client;
+import assignment1.models.Cluster;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

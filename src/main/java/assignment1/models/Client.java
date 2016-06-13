@@ -1,4 +1,4 @@
-package models;
+package assignment1.models;
 
 import java.util.Vector;
 

@@ -1,7 +1,7 @@
-package algorithm;
+package assignment1.algorithm;
 
-import models.Cluster;
-import models.IVector;
+import assignment1.models.Cluster;
+import assignment1.models.IVector;
 
 import java.util.ArrayList;
 import java.util.List;

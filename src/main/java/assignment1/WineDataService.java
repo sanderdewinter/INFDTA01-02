@@ -1,5 +1,7 @@
-import models.Client;
-import models.Cluster;
+package assignment1;
+
+import assignment1.models.Client;
+import assignment1.models.Cluster;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

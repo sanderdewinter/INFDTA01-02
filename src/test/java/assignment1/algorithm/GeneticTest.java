@@ -1,4 +1,4 @@
-package algorithm;
+package assignment1.algorithm;
 
 public class GeneticTest {
 
