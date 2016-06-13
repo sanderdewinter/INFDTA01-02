@@ -30,14 +30,23 @@ class Assignment3 extends JFrame {
     }
 
     private XYDataset createDataSet(List<Integer> data) {
-        XYSeries line = new XYSeries("Line");
+        XYSeries originalData = new XYSeries("Original data");
 
         for (int i = 0; i < data.size(); i++) {
-            line.add(i + 1, data.get(i));
+            originalData.add(i + 1, data.get(i));
+        }
+
+        XYSeries ses = new XYSeries("SES");
+        ExponentialSmoothing exponentialSmoothing = new ExponentialSmoothing(data, 0.5);
+        List<Double> sesData = exponentialSmoothing.simpleExponentialSmoothing();
+
+        for (int i = 0; i < sesData.size(); i++) {
+            ses.add(i + 1, sesData.get(i));
         }
 
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(line);
+        dataset.addSeries(originalData);
+        dataset.addSeries(ses);
         return dataset;
     }
 
