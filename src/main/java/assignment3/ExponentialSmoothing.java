@@ -3,7 +3,7 @@ package assignment3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExponentialSmoothing {
+class ExponentialSmoothing {
 
     private List<Integer> data;
     private List<Double> ses;
@@ -49,6 +49,22 @@ public class ExponentialSmoothing {
         sesError = sesError / (data.size() - 1);
 
         return ses;
+    }
+
+    public double getBestSesSmoothingFactor() {
+        double bestSmoothingFactor = 0.0;
+        double lowestSesError = 99999;
+
+        for (double currentSmoothingFactor = 0.05; currentSmoothingFactor < 1; currentSmoothingFactor += 0.05) {
+            simpleExponentialSmoothing();
+
+            if (sesError < lowestSesError) {
+                lowestSesError = sesError;
+                bestSmoothingFactor = currentSmoothingFactor;
+            }
+        }
+
+        return bestSmoothingFactor;
     }
 
     private double getMovingAverage(List<Integer> data, int k) {
