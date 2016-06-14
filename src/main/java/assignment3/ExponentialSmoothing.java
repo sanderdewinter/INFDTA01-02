@@ -117,13 +117,25 @@ class ExponentialSmoothing {
             double forecastValue = des.get(i - 1) + trend.get(i - 1);
             forecast.add(forecastValue);
 
-//            double error =
-//            desError += error;
+            double error = Math.pow(data.get(i) - forecast.get(i), 2);
+            desError += error;
         }
+
+        desError = Math.sqrt(desError / getAmountOfForecasts() - 2);
 
         forecast = forecastDes(des, trend, 37, 48);
 
         return forecast;
+    }
+
+    private double getAmountOfForecasts() {
+        int result = 0;
+        for (Double value : forecast) {
+            if (value != null) {
+                result++;
+            }
+        }
+        return result;
     }
 
     private List<Double> forecastDes(List<Double> s, List<Double> trend, int from, int to) {
