@@ -53,6 +53,21 @@ class ExponentialSmoothing {
 
         sesError = sesError / (data.size() - 1);
 
+        ses = forecastSes(ses, data, 37, 48);
+
+        return ses;
+    }
+
+    private List<Double> forecastSes(List<Double> ses, List<Integer> data, int from, int to) {
+        for (int i = from - 1; i <= to - 1; i++) {
+            try {
+                double value = a * data.get(i - 1) + (1 - a) * ses.get(i - 1);
+                ses.add(value);
+            } catch (IndexOutOfBoundsException e) {
+                ses.add(ses.get(i - 1));
+            }
+        }
+
         return ses;
     }
 
@@ -94,6 +109,9 @@ class ExponentialSmoothing {
 
             double trendValue = getTrend(des, this.trend, i);
             trend.add(trendValue);
+
+//            double error =
+//            desError += error;
         }
 
         return des;
