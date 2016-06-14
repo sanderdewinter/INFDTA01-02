@@ -61,7 +61,7 @@ class Assignment3 extends JFrame {
     private List<Double> getSesData() {
         ExponentialSmoothing exponentialSmoothing = new ExponentialSmoothing(data, 0.5);
         double a = exponentialSmoothing.getBestSesSmoothingFactor();
-        System.out.println("Best smoothing factor a (ses): " + a);
+        System.out.println("Best smoothing factor a (ses): " + a + ", because error is: " + exponentialSmoothing.getSesError());
 
         exponentialSmoothing.setA(a);
         List<Double> sesData = exponentialSmoothing.simpleExponentialSmoothing();

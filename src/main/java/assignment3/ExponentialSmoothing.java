@@ -177,4 +177,12 @@ class ExponentialSmoothing {
     public void setB(double b) {
         this.b = b;
     }
+
+    public double getSesError() {
+        return sesError;
+    }
+
+    public double getDesError() {
+        return desError;
+    }
 }
