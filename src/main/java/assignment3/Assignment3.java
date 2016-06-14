@@ -44,7 +44,7 @@ class Assignment3 extends JFrame {
         }
 
 
-        XYSeries des = new XYSeries("DES");
+        XYSeries des = new XYSeries("DES forecast");
         List<Double> desData = getDesData();
 
         for (int i = 0; i < desData.size(); i++) {

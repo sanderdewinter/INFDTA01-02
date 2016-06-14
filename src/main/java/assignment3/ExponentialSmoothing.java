@@ -11,6 +11,7 @@ class ExponentialSmoothing {
 
     private List<Double> des;
     private List<Double> trend;
+    private List<Double> forecast;
 
     private double a;
     private double b;
@@ -28,9 +29,9 @@ class ExponentialSmoothing {
         this.data = data;
         this.a = a;
         this.b = b;
-        this.ses = new ArrayList<>();
         this.des = new ArrayList<>();
         this.trend = new ArrayList<>();
+        this.forecast = new ArrayList<>();
     }
 
     public List<Double> simpleExponentialSmoothing() {
@@ -91,16 +92,19 @@ class ExponentialSmoothing {
     List<Double> doubleExponentialSmoothing() {
         des.clear();
         trend.clear();
+        forecast.clear();
         desError = 0;
 
         for (int i = 0; i < data.size(); i++) {
             if (i == 0) {
                 des.add(null);
                 trend.add(null);
+                forecast.add(null);
                 continue;
             } else if (i == 1) {
                 des.add(Double.valueOf(data.get(i)));
                 trend.add((double) (data.get(i) - data.get(i - 1)));
+                forecast.add(null);
                 continue;
             }
 
@@ -110,11 +114,31 @@ class ExponentialSmoothing {
             double trendValue = getTrend(des, this.trend, i);
             trend.add(trendValue);
 
+            double forecastValue = des.get(i - 1) + trend.get(i - 1);
+            forecast.add(forecastValue);
+
 //            double error =
 //            desError += error;
         }
 
-        return des;
+        forecast = forecastDes(des, trend, 37, 48);
+
+        return forecast;
+    }
+
+    private List<Double> forecastDes(List<Double> s, List<Double> trend, int from, int to) {
+        for (int i = from - 1; i <= to - 1; i++) {
+            if (i == s.size()) {
+                forecast.add(s.get(i - 1) + trend.get(i - 1));
+            } else {
+                Double aDouble = s.get(s.size() - 1);
+                Double a2 = (double) (i + 1 - s.size());
+                Double a3 = trend.get(trend.size() - 1);
+                forecast.add(aDouble + a2 * a3);
+            }
+        }
+
+        return forecast;
     }
 
     private double getTrend(List<Double> s, List<Double> t, int i) {
