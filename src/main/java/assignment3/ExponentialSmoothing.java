@@ -56,6 +56,7 @@ class ExponentialSmoothing {
         double lowestSesError = 99999;
 
         for (double currentSmoothingFactor = 0.05; currentSmoothingFactor < 1; currentSmoothingFactor += 0.05) {
+            setA(currentSmoothingFactor);
             simpleExponentialSmoothing();
 
             if (sesError < lowestSesError) {
