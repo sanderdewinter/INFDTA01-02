@@ -43,9 +43,18 @@ class Assignment3 extends JFrame {
             ses.add(i + 1, sesData.get(i));
         }
 
+
+        XYSeries des = new XYSeries("DES");
+        List<Double> desData = getDesData();
+
+        for (int i = 0; i < desData.size(); i++) {
+            des.add(i + 1, desData.get(i));
+        }
+
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(originalData);
         dataset.addSeries(ses);
+        dataset.addSeries(des);
         return dataset;
     }
 
@@ -58,6 +67,17 @@ class Assignment3 extends JFrame {
         List<Double> sesData = exponentialSmoothing.simpleExponentialSmoothing();
 
         return sesData;
+    }
+
+    private List<Double> getDesData() {
+        ExponentialSmoothing exponentialSmoothing = new ExponentialSmoothing(data, 0.5, 0.5);
+//        double a = exponentialSmoothing.getBestSesSmoothingFactor();
+//        System.out.println("Best smoothing factor a (ses): " + a);
+
+//        exponentialSmoothing.setA(a);
+        List<Double> desData = exponentialSmoothing.doubleExponentialSmoothing();
+
+        return desData;
     }
 
     static List<Integer> getData() throws IOException {

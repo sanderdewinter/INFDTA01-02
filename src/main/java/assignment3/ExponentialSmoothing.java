@@ -89,11 +89,11 @@ class ExponentialSmoothing {
                 continue;
             }
 
-            double trendValue = getTrend(des, this.trend, i);
-            trend.add(trendValue);
-
             double result = a * data.get(i) + (1 - a) * (des.get(i - 1) + trend.get(i - 1));
             des.add(result);
+
+            double trendValue = getTrend(des, this.trend, i);
+            trend.add(trendValue);
         }
 
         return des;
