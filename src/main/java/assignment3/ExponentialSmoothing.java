@@ -6,13 +6,17 @@ import java.util.List;
 class ExponentialSmoothing {
 
     private List<Integer> data;
+
     private List<Double> ses;
+
     private List<Double> des;
+    private List<Double> trend;
 
     private double a;
     private double b;
 
     private double sesError;
+    private double desError;
 
     public ExponentialSmoothing(List<Integer> data, double a) {
         this.data = data;
@@ -26,6 +30,7 @@ class ExponentialSmoothing {
         this.b = b;
         this.ses = new ArrayList<>();
         this.des = new ArrayList<>();
+        this.trend = new ArrayList<>();
     }
 
     public List<Double> simpleExponentialSmoothing() {
@@ -66,6 +71,36 @@ class ExponentialSmoothing {
         }
 
         return bestSmoothingFactor;
+    }
+
+    List<Double> doubleExponentialSmoothing() {
+        des.clear();
+        trend.clear();
+        desError = 0;
+
+        for (int i = 0; i < data.size(); i++) {
+            if (i == 0) {
+                des.add(null);
+                trend.add(null);
+                continue;
+            } else if (i == 1) {
+                des.add(Double.valueOf(data.get(i)));
+                trend.add((double) (data.get(i) - data.get(i - 1)));
+                continue;
+            }
+
+            double trendValue = getTrend(des, this.trend, i);
+            trend.add(trendValue);
+
+            double result = a * data.get(i) + (1 - a) * (des.get(i - 1) + trend.get(i - 1));
+            des.add(result);
+        }
+
+        return des;
+    }
+
+    private double getTrend(List<Double> s, List<Double> t, int i) {
+        return b * (s.get(i) - s.get(i - 1)) + (1 - b) * t.get(i - 1);
     }
 
     private double getMovingAverage(List<Integer> data, int k) {
