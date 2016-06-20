@@ -29,6 +29,7 @@ class ExponentialSmoothing {
         this.data = data;
         this.a = a;
         this.b = b;
+        this.ses = new ArrayList<>();
         this.des = new ArrayList<>();
         this.trend = new ArrayList<>();
         this.forecast = new ArrayList<>();
@@ -126,6 +127,23 @@ class ExponentialSmoothing {
         forecast = forecastDes(des, trend, 37, 48);
 
         return forecast;
+    }
+
+    public double getBestDesSmoothingFactors() {
+        double bestSmoothingFactor = 0.0;
+        double lowestDesError = 99999;
+
+        for (double currentSmoothingFactor = 0.05; currentSmoothingFactor < 1; currentSmoothingFactor += 0.05) {
+            setB(currentSmoothingFactor);
+            doubleExponentialSmoothing();
+
+            if (desError < lowestDesError) {
+                lowestDesError = desError;
+                bestSmoothingFactor = currentSmoothingFactor;
+            }
+        }
+
+        return bestSmoothingFactor;
     }
 
     private double getAmountOfForecasts() {

@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class Assignment2Test {
+public class Assignment3Test {
 
     static List<Integer> data;
 
