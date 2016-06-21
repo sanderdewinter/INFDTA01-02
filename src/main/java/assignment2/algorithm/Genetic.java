@@ -29,6 +29,7 @@ public class Genetic {
     public void run() {
         List<Individual> currentPopulation = initPopulation();
 
+
         for (int generation = 0; generation < amountOfIterations; generation++) {
             List<Double> fitnesses = currentPopulation.stream().map(individual -> computeFitness.apply(individual)).collect(Collectors.toList());
 
@@ -79,8 +80,33 @@ public class Genetic {
     }
 
     private void selectTwoParents(List<Individual> currentPopulation, List<Double> fitnesses) {
-        Collection collection = new HashSet();
+        Collection<Individual> collection = new HashSet<>();
+        double totalFitness = 0;
+        for(double fitnessValue : fitnesses){
+            totalFitness += fitnessValue;
+        }
+        collection.add(selectParent(currentPopulation, totalFitness, collection));
+        collection.add(selectParent(currentPopulation, totalFitness, collection));
+    }
 
-
+    private Individual selectParent(List<Individual> currentPopulation, double totalFitness, Collection<Individual> collection){
+        Individual individual = null;
+        double sum = 0;
+        Individual skippable = null;
+        for(Individual individualSkip : collection){
+            skippable = individualSkip;
+        }
+        double random = totalFitness * Math.random();
+        for(Individual currentIndividual : currentPopulation){
+            if(currentIndividual == skippable){
+                continue;
+            }
+            individual = currentIndividual;
+            sum += individual.getByte()/totalFitness;
+            if(sum > random){
+                return individual;
+            }
+        }
+        return individual;
     }
 }
