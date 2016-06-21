@@ -1,6 +1,7 @@
 package assignment2.algorithm;
 
 import assignment2.models.Individual;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 import java.util.*;
 import java.util.function.Function;
@@ -32,23 +33,24 @@ public class Genetic {
         for (int generation = 0; generation < amountOfIterations; generation++) {
             List<Double> fitnesses = currentPopulation.stream().map(individual -> computeFitness.apply(individual)).collect(Collectors.toList());
 
+            double sumFitness = 0.0;
+
+            for (int i = 0; i < currentPopulation.size(); i++) {
+                populationWithFitness.put(currentPopulation.get(i), fitnesses.get(i));
+                sumFitness += fitnesses.get(i);
+            }
+
             List<Individual> nextPopulation = new ArrayList<>();
 
             int startIndex;
             if (elitism) {
                 startIndex = 1;
-
-                for (int i = 0; i < currentPopulation.size(); i++) {
-                    populationWithFitness.put(currentPopulation.get(i), fitnesses.get(i));
-                }
-
-                Individual bestIndividual = getBestIndividual();
-                nextPopulation.set(0, bestIndividual);
+                nextPopulation.set(0, getBestIndividual());
             } else {
                 startIndex = 0;
             }
 
-            selectTwoParents(currentPopulation, fitnesses);
+            selectTwoParent(populationWithFitness, sumFitness);
         }
     }
 
@@ -78,9 +80,30 @@ public class Genetic {
         return bestIndividual;
     }
 
-    private void selectTwoParents(List<Individual> currentPopulation, List<Double> fitnesses) {
-        Collection collection = new HashSet();
+    private Collection<Individual> selectTwoParent(Map<Individual, Double> populationWithFitness, double sumFitness) {
+        Individual parent1 = selectParent(populationWithFitness, sumFitness, null);
+        Individual parent2 = selectParent(populationWithFitness, sumFitness, parent1);
 
+        return Arrays.asList(parent1, parent2);
+    }
 
+    private Individual selectParent(Map<Individual, Double> populationWithFitness, double sumFitness, Individual otherParent) {
+        double sum = 0;
+        double random = Math.random() * sumFitness;
+        Individual last = null;
+
+        for (Individual individual : populationWithFitness.keySet()) {
+            if (individual == otherParent) {
+                continue;
+            }
+
+            sum += populationWithFitness.get(individual) / sumFitness;
+            last = individual;
+
+            if (random < sum) {
+                return individual;
+            }
+        }
+        return last;
     }
 }
