@@ -2,9 +2,7 @@ package assignment2.algorithm;
 
 import assignment2.models.Individual;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -17,6 +15,8 @@ public class Genetic {
     private int amountOfIterations;
     private Function<Individual, Double> computeFitness;
 
+    private Map<Individual, Double> populationWithFitness = new HashMap<>();
+
     public Genetic(double crossoverRate, double mutationRate, boolean elitism, int populationSize, int amountOfIterations, Function<Individual, Double> computeFitness) {
         this.crossoverRate = crossoverRate;
         this.mutationRate = mutationRate;
@@ -27,12 +27,28 @@ public class Genetic {
     }
 
     public void run() {
-        List<Individual> population = initPopulation();
+        List<Individual> currentPopulation = initPopulation();
 
         for (int generation = 0; generation < amountOfIterations; generation++) {
-            List<Double> fitnesses = population.stream().map(individual -> computeFitness.apply(individual)).collect(Collectors.toList());
+            List<Double> fitnesses = currentPopulation.stream().map(individual -> computeFitness.apply(individual)).collect(Collectors.toList());
 
             List<Individual> nextPopulation = new ArrayList<>();
+
+            int startIndex;
+            if (elitism) {
+                startIndex = 1;
+
+                for (int i = 0; i < currentPopulation.size(); i++) {
+                    populationWithFitness.put(currentPopulation.get(i), fitnesses.get(i));
+                }
+
+                Individual bestIndividual = getBestIndividual();
+                nextPopulation.set(0, bestIndividual);
+            } else {
+                startIndex = 0;
+            }
+
+            selectTwoParents(currentPopulation, fitnesses);
         }
     }
 
@@ -44,5 +60,27 @@ public class Genetic {
             initialPopulation.add(new Individual(r.nextInt(32)));
         }
         return initialPopulation;
+    }
+
+    private Individual getBestIndividual() {
+        Individual bestIndividual = null;
+        Double bestFitness = 0.0;
+
+        for (Individual individual : populationWithFitness.keySet()) {
+            Double fitness = populationWithFitness.get(individual);
+
+            if (fitness > bestFitness) {
+                bestIndividual = individual;
+                bestFitness = fitness;
+            }
+        }
+
+        return bestIndividual;
+    }
+
+    private void selectTwoParents(List<Individual> currentPopulation, List<Double> fitnesses) {
+        Collection collection = new HashSet();
+
+
     }
 }

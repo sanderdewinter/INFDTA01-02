@@ -19,7 +19,7 @@ public class Assignment2Test {
 
     @BeforeClass
     public static void init() {
-        genetic = new Genetic(0.5, 0.5, false, 5, 10, aFakeProblem);
+        genetic = new Genetic(0.9, 0.05, false, 5, 10, aFakeProblem);
     }
 
     @Test
