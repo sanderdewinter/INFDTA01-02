@@ -13,15 +13,15 @@ public class Genetic {
     private double crossoverRate;
     private double mutationRate;
     private boolean elitism;
-    private int populiationSize;
+    private int populationSize;
     private int amountOfIterations;
     private Function<Individual, Double> computeFitness;
 
-    public Genetic(double crossoverRate, double mutationRate, boolean elitism, int populiationSize, int amountOfIterations, Function<Individual, Double> computeFitness) {
+    public Genetic(double crossoverRate, double mutationRate, boolean elitism, int populationSize, int amountOfIterations, Function<Individual, Double> computeFitness) {
         this.crossoverRate = crossoverRate;
         this.mutationRate = mutationRate;
         this.elitism = elitism;
-        this.populiationSize = populiationSize;
+        this.populationSize = populationSize;
         this.amountOfIterations = amountOfIterations;
         this.computeFitness = computeFitness;
     }
@@ -40,7 +40,7 @@ public class Genetic {
         Random r = new Random();
 
         List<Individual> initialPopulation = new ArrayList<>();
-        for (int i = 0; i < populiationSize; i++) {
+        for (int i = 0; i < populationSize; i++) {
             initialPopulation.add(new Individual(r.nextInt(32)));
         }
         return initialPopulation;
