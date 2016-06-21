@@ -22,4 +22,24 @@ public class Individual {
     public String getByteString() {
         return String.format("%" + BIT_LENGTH + "s", Integer.toBinaryString(value)).replace(" ", "0");
     }
+
+    public void breed(Individual parent) {
+        byte v = this.value;
+        byte p = parent.getByte();
+        for (int i = 0; i < Byte.SIZE; i++) {
+            if (Math.random() < 0.5) {
+                v |= (p & (1 << i));
+            }
+        }
+    }
+
+    public Individual mutate(double mutationRate) {
+        byte v = this.value;
+        for(int i = 0; i < BIT_LENGTH; i++) {
+            if(Math.random() < mutationRate) {
+                v ^= (1 << i);
+            }
+        }
+        return new Individual(v);
+    }
 }

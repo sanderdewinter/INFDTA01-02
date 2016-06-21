@@ -50,7 +50,7 @@ public class Genetic {
                 startIndex = 0;
             }
 
-            selectTwoParent(populationWithFitness, sumFitness);
+            Collection<Individual> individuals = selectTwoParent(populationWithFitness, sumFitness);
         }
     }
 
