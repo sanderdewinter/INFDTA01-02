@@ -146,6 +146,36 @@ class ExponentialSmoothing {
         return bestSmoothingFactor;
     }
 
+    public Double[] getBestSesAndDesFactors() {
+        double bestSesSmoothingFactor = 0.0;
+        double lowestSesError = 99999;
+
+        double bestDesSmoothingFactor = 0.0;
+        double lowestDesError = 99999;
+
+        for (double currentSesSmoothingFactor = 0.05; currentSesSmoothingFactor < 1; currentSesSmoothingFactor += 0.05) {
+            setA(currentSesSmoothingFactor);
+            simpleExponentialSmoothing();
+
+            if (sesError < lowestSesError) {
+                lowestSesError = sesError;
+                bestSesSmoothingFactor = currentSesSmoothingFactor;
+            }
+
+            for (double currentDesSmoothingFactor = 0.05; currentDesSmoothingFactor < 1; currentDesSmoothingFactor += 0.05) {
+                setB(currentDesSmoothingFactor);
+                doubleExponentialSmoothing();
+
+                if (desError < lowestDesError) {
+                    lowestDesError = desError;
+                    bestDesSmoothingFactor = currentDesSmoothingFactor;
+                }
+            }
+        }
+
+        return new Double[]{bestSesSmoothingFactor, bestDesSmoothingFactor};
+    }
+
     private double getAmountOfForecasts() {
         int result = 0;
         for (Double value : forecast) {

@@ -71,11 +71,14 @@ class Assignment3 extends JFrame {
 
     private List<Double> getDesData() {
         ExponentialSmoothing exponentialSmoothing = new ExponentialSmoothing(data, 0.5, 0.5);
-        double a = exponentialSmoothing.getBestSesSmoothingFactor();
+
+        Double[] factors = exponentialSmoothing.getBestSesAndDesFactors();
+
+        double a = factors[0];
         System.out.println("Best smoothing factor a (ses): " + a);
         exponentialSmoothing.setA(a);
 
-        double b = exponentialSmoothing.getBestDesSmoothingFactors();
+        double b = factors[1];
         System.out.println("Best smoothing factor a (des): " + b);
         exponentialSmoothing.setB(b);
 
