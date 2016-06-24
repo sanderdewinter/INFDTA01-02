@@ -19,7 +19,7 @@ public class Assignment2Test {
 
     @BeforeClass
     public static void init() {
-        genetic = new Genetic(0.9, 0.05, false, 5, 10, aFakeProblem);
+        genetic = new Genetic(0.9, 0.05, false, 10, 50, aFakeProblem);
     }
 
     @Test
@@ -27,14 +27,20 @@ public class Assignment2Test {
         Individual individual = new Individual(2);
         Individual individual2 = new Individual(9);
 
-        System.out.println(individual.getByteString());
-        System.out.println(individual2.getByteString());
+//        System.out.println(individual.getByteString());
+//        System.out.println(individual2.getByteString());
         Assert.assertNotNull(individual);
     }
 
     @Test
     public void testGenetic() {
-        Individual result = genetic.run();
-        System.out.println(result.getByte());
+        Object[] result = genetic.run();
+
+        Individual individual = (Individual) result[0];
+        System.out.println(individual.getByte());
+
+        System.out.println("Best fitness: " + result[1]);
+
+        System.out.println("Average fitness: " + result[2]);
     }
 }

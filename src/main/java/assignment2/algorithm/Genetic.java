@@ -26,7 +26,7 @@ public class Genetic {
         this.computeFitness = computeFitness;
     }
 
-    public Individual run() {
+    public Object[] run() {
         List<Individual> currentPopulation = initPopulation();
 
         for (int generation = 0; generation < amountOfIterations; generation++) {
@@ -70,11 +70,7 @@ public class Genetic {
         }
 
         List<Double> finalFitnesses = currentPopulation.stream().map(individual -> computeFitness.apply(individual)).collect(Collectors.toList());
-        Individual best = getBestIndividual(currentPopulation, finalFitnesses);
-        if (best == null) {
-            System.out.println("nullllll");
-        }
-        return best;
+        return getBestIndividual(currentPopulation, finalFitnesses);
     }
 
     private Collection<Individual> getChildren(Collection<Individual> parents) {
@@ -111,12 +107,14 @@ public class Genetic {
         return bestIndividual;
     }
 
-    private Individual getBestIndividual(List<Individual> currentPopulation, List<Double> finalFitnesses) {
+    private Object[] getBestIndividual(List<Individual> currentPopulation, List<Double> finalFitnesses) {
         Individual bestIndividual = null;
         Double bestFitness = -999999.0;
+        double sumFitness = 0.0;
 
         for (int i = 0; i < finalFitnesses.size(); i++) {
             Double fitness = finalFitnesses.get(i);
+            sumFitness += fitness;
 
             if (fitness > bestFitness) {
                 bestFitness = fitness;
@@ -124,7 +122,7 @@ public class Genetic {
             }
         }
 
-        return bestIndividual;
+        return new Object[]{bestIndividual, bestFitness, sumFitness / finalFitnesses.size()};
     }
 
     private Collection<Individual> selectTwoParent(Map<Individual, Double> populationWithFitness, double sumFitness) {
