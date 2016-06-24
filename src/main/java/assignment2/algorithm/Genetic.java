@@ -59,10 +59,10 @@ public class Genetic {
                     offspring = parents;
                 }
 
-                Individual[] offspringArray = (Individual[]) offspring.toArray();
-                nextPopulation.set(i, offspringArray[0].mutate(mutationRate));
+                Iterator<Individual> iterator = offspring.iterator();
+                nextPopulation.add(i, iterator.next().mutate(mutationRate));
                 if (i < populationSize) {
-                    nextPopulation.set(i, offspringArray[1].mutate(mutationRate));
+                    nextPopulation.add(i, iterator.next().mutate(mutationRate));
                 }
             }
 
@@ -70,7 +70,11 @@ public class Genetic {
         }
 
         List<Double> finalFitnesses = currentPopulation.stream().map(individual -> computeFitness.apply(individual)).collect(Collectors.toList());
-        return getBestIndividual(currentPopulation, finalFitnesses);
+        Individual best = getBestIndividual(currentPopulation, finalFitnesses);
+        if (best == null) {
+            System.out.println("nullllll");
+        }
+        return best;
     }
 
     private Collection<Individual> getChildren(Collection<Individual> parents) {
@@ -109,7 +113,7 @@ public class Genetic {
 
     private Individual getBestIndividual(List<Individual> currentPopulation, List<Double> finalFitnesses) {
         Individual bestIndividual = null;
-        Double bestFitness = 0.0;
+        Double bestFitness = -999999.0;
 
         for (int i = 0; i < finalFitnesses.size(); i++) {
             Double fitness = finalFitnesses.get(i);

@@ -34,6 +34,7 @@ public class Assignment2Test {
 
     @Test
     public void testGenetic() {
-        genetic.run();
+        Individual result = genetic.run();
+        System.out.println(result.getByte());
     }
 }
