@@ -23,7 +23,7 @@ public class Individual {
         return String.format("%" + BIT_LENGTH + "s", Integer.toBinaryString(value)).replace(" ", "0");
     }
 
-    public void breed(Individual parent) {
+    public Individual breed(Individual parent) {
         byte v = this.value;
         byte p = parent.getByte();
         for (int i = 0; i < Byte.SIZE; i++) {
@@ -31,6 +31,8 @@ public class Individual {
                 v |= (p & (1 << i));
             }
         }
+
+        return new Individual(v);
     }
 
     public Individual mutate(double mutationRate) {

@@ -1,7 +1,6 @@
 package assignment2.algorithm;
 
 import assignment2.models.Individual;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 import java.util.*;
 import java.util.function.Function;
@@ -27,7 +26,7 @@ public class Genetic {
         this.computeFitness = computeFitness;
     }
 
-    public void run() {
+    public Individual run() {
         List<Individual> currentPopulation = initPopulation();
 
         for (int generation = 0; generation < amountOfIterations; generation++) {
@@ -50,8 +49,36 @@ public class Genetic {
                 startIndex = 0;
             }
 
-            Collection<Individual> individuals = selectTwoParent(populationWithFitness, sumFitness);
+            Collection<Individual> parents = selectTwoParent(populationWithFitness, sumFitness);
+
+            for (int i = startIndex; i < populationSize; i++) {
+                Collection<Individual> offspring;
+                if (Math.random() < crossoverRate) {
+                    offspring = getChildren(parents);
+                } else {
+                    offspring = parents;
+                }
+
+                Individual[] offspringArray = (Individual[]) offspring.toArray();
+                nextPopulation.set(i, offspringArray[0].mutate(mutationRate));
+                if (i < populationSize) {
+                    nextPopulation.set(i, offspringArray[1].mutate(mutationRate));
+                }
+            }
+
+            currentPopulation = nextPopulation;
         }
+
+        List<Double> finalFitnesses = currentPopulation.stream().map(individual -> computeFitness.apply(individual)).collect(Collectors.toList());
+        return getBestIndividual(currentPopulation, finalFitnesses);
+    }
+
+    private Collection<Individual> getChildren(Collection<Individual> parents) {
+        if (parents.size() != 2) {
+            throw new IllegalArgumentException("There are more or less then 2 parents");
+        }
+
+        return parents.stream().map(parent -> parent.breed(parent)).collect(Collectors.toCollection(HashSet::new));
     }
 
     private List<Individual> initPopulation() {
@@ -74,6 +101,22 @@ public class Genetic {
             if (fitness > bestFitness) {
                 bestIndividual = individual;
                 bestFitness = fitness;
+            }
+        }
+
+        return bestIndividual;
+    }
+
+    private Individual getBestIndividual(List<Individual> currentPopulation, List<Double> finalFitnesses) {
+        Individual bestIndividual = null;
+        Double bestFitness = 0.0;
+
+        for (int i = 0; i < finalFitnesses.size(); i++) {
+            Double fitness = finalFitnesses.get(i);
+
+            if (fitness > bestFitness) {
+                bestFitness = fitness;
+                bestIndividual = currentPopulation.get(i);
             }
         }
 
